@@ -1,0 +1,22 @@
+{{- if .Values.networkPolicy.enabled -}}
+apiVersion: {{ template "networkPolicy.apiVersion" . }}
+kind: NetworkPolicy
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    namespace: "{{ .Release.Namespace }}"
+    release-name: "{{ .Release.Name }}"
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: {{ .Chart.Name }}
+    ports:
+    - protocol: TCP
+      port: {{ .Values.service.internalPort }}
+{{- end }}

@@ -104,6 +104,13 @@ func TestTemplateCmd(t *testing.T) {
 			expectKey:   "subchart1/templates/service.yaml",
 			expectValue: "release-name: \"foobar-YWJj-baz\"",
 		},
+		{
+			name:        "check_kube_version",
+			desc:        "verify --kube-version",
+			args:        []string{chartPath, "--kube-version", "1.7", "-x", "templates/networkpolicy.yaml", "--set", "networkPolicy.enabled=true"},
+			expectKey:   "subchart1/templates/networkpolicy.yaml",
+			expectValue: "apiVersion: networking.k8s.io/v1",
+		},
 	}
 
 	var buf bytes.Buffer
